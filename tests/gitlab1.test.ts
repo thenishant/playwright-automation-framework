@@ -1,8 +1,8 @@
-import { chromium, Browser, Page } from "playwright";
 
 describe("Gitlabtests", () => {
     it("load gitlab", async () => {
-        await page.goto("https://about.gitlab.com/");
-        // await page.goto("https://www.google.com/");
+        await page.goto("https://gitlab.com/users/sign_in");
+        await page.waitForSelector('id=user_login');
+        expect(await page.title()).toBe("Sign in · GitLab")
     })
 })
