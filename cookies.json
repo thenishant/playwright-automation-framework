@@ -1,0 +1,102 @@
+[
+  {
+    "name": "cf_chl_1",
+    "value": "39358f6933288ff",
+    "domain": "gitlab.com",
+    "path": "/",
+    "expires": 1610902869,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "None"
+  },
+  {
+    "name": "cf_chl_seq_39358f6933288ff",
+    "value": "7c0949a84d4de53",
+    "domain": "gitlab.com",
+    "path": "/cdn-cgi/challenge-platform/h/b/generate/ov1/0.9564101348497235:1610896015:6ec51f535039cafebece6743f9dc8ae7736eb5ae718be71795a22bec1e40589a/61314b122c021d47",
+    "expires": -1,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "Strict"
+  },
+  {
+    "name": "cf_chl_prog",
+    "value": "x15",
+    "domain": "gitlab.com",
+    "path": "/",
+    "expires": 1610902873,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "None"
+  },
+  {
+    "name": "cf_clearance",
+    "value": "bd16cabaef9a97b91756341c084da2a44d900d70-1610899273-0-150",
+    "domain": ".gitlab.com",
+    "path": "/",
+    "expires": 1642438873,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "None"
+  },
+  {
+    "name": "__cfduid",
+    "value": "dcd4037e70a77b215cc1b72593aab61611610899273",
+    "domain": ".gitlab.com",
+    "path": "/",
+    "expires": 1613491273,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "experimentation_subject_id",
+    "value": "eyJfcmFpbHMiOnsibWVzc2FnZSI6IkltVTJOVEkzWWpJd0xXUTJNR1F0TkdVd1lpMWhOVFZsTFdRMU9USmhOelJtTlRRek1pST0iLCJleHAiOm51bGwsInB1ciI6ImNvb2tpZS5leHBlcmltZW50YXRpb25fc3ViamVjdF9pZCJ9fQ%3D%3D--b3321f16c6252d199a28d2746a9a9d25ec005b13",
+    "domain": "gitlab.com",
+    "path": "/",
+    "expires": 2242051273,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "None"
+  },
+  {
+    "name": "known_sign_in",
+    "value": "K1ZTZ3VCQXZjdUU4VE5uYkhlUWVEUnNXK2xmOFhORS91K3FBYU5XdVhxRVVZbWpKNFRocXNOaEFtZG4zS1VhZEhNckxwMlpkekRqc1R6c1IrWGM4YllQRE1zcFRJWmZjZVlnaVAzY2cwaUZYUGtWNnpROXFmN2lveTFWZ2xzR0FpNml5aDU4NGt4SlpXS2JNdUhSK2t3PT0tLXY3SGxCL29sS2JIK3hVZE4zUzkzS3c9PQ%3D%3D--112f401db0a3b1633e1558852e1128dc9a668f6b",
+    "domain": "gitlab.com",
+    "path": "/",
+    "expires": 1612108874,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "None"
+  },
+  {
+    "name": "_gitlab_session",
+    "value": "59a5c8c34ab92155f71005a58523129b",
+    "domain": "gitlab.com",
+    "path": "/",
+    "expires": -1,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "None"
+  },
+  {
+    "name": "_sp_ses.6b85",
+    "value": "*",
+    "domain": ".gitlab.com",
+    "path": "/",
+    "expires": 1610901075,
+    "httpOnly": false,
+    "secure": true,
+    "sameSite": "None"
+  },
+  {
+    "name": "_sp_id.6b85",
+    "value": "eed33cec-720d-47cf-aff8-161b9148f0fa.1610899274.1.1610899275.1610899274.764beeab-4c81-492c-838b-84b7c06b3732",
+    "domain": ".gitlab.com",
+    "path": "/",
+    "expires": 1673971275,
+    "httpOnly": false,
+    "secure": true,
+    "sameSite": "None"
+  }
+]
