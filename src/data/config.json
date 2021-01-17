@@ -1,0 +1,8 @@
+{
+    "userName": "testgitlab4@gmail.com",
+    "password": "testgitlab1234",
+    "developer": "@sumalathabhat",
+    "testUrl": "https://gitlab.com/users/sign_in",
+    "newProjectUrl": "https://gitlab.com/projects/new#blank_project",
+    "editProjectUrl": "https://gitlab.com/testgitlab0/test/edit"
+}
