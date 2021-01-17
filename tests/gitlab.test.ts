@@ -35,7 +35,7 @@ describe('Gitlab tests', () => {
   })
 
   it('An existing user is able to create a new private project on gitlab', async () => {
-    createProject('test');
+    await createProject('test');
     let projectPage = new ProjectPage(page);
     await projectPage.waitForPageLoad();
     const successText = await projectPage.projectSuccessMessage();
