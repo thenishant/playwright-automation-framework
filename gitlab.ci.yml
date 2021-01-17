@@ -1,0 +1,5 @@
+image: node:latest
+test_web:
+  script:
+    - npm install
+    - npm test

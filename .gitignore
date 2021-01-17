@@ -5,4 +5,5 @@ jest_html_reporters.html
 src/pages/*.js
 tests/*.js
 tests/cookies.json
+src/.DS_Store
 

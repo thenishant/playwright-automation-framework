@@ -2,7 +2,9 @@ import { Page } from 'playwright';
 
 export class HomePage {
 
-    private welcomeTitle = 'text=Welcome to GitLab';
+    private welcomeText = 'text=Welcome to GitLab';
+    private plusIcon = 'id=js-onboarding-new-project-link';
+    private newProjectText = 'text=New project';
     private page: Page;
 
     constructor(page:Page)
@@ -10,8 +12,16 @@ export class HomePage {
         this.page = page;
     }
 
-    async waitForHomePageLoading()
+    async waitForPageLoad()
     {
-        await this.page.waitForSelector(this.welcomeTitle);
+        await this.page.waitForSelector(this.welcomeText);
     }
+
+    async createNewProjectByClickingPlus()
+    {
+        await this.page.click(this.plusIcon);
+        await this.page.click(this.newProjectText);
+    }
+
+    
 }
