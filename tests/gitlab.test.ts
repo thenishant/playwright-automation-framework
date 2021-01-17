@@ -8,18 +8,9 @@ import { ProjectEditpage } from '../src/pages/menuBarPages/ProJectEditPage';
 import { MembersPage } from '../src/pages/menuBarPages/MembersPage';
 
 describe('Gitlab tests', () => {
-  let homePage: HomePage;
-  let newProjectPage: NewProjectPage;
+  let homePage = new HomePage;
+  let newProjectPage= new NewProjectPage;
 
-  beforeAll(async () => {
-    const deserializedCookies = new Utils().getCookies();
-    await context.addCookies(deserializedCookies);
-    await page.goto(data.testUrl);
-    homePage = new HomePage();
-    newProjectPage = new NewProjectPage();
-    await homePage.waitForPageLoad();
-  })
-  
   const createProject = async (projectName:string) => {
     await homePage.createNewProjectByClickingPlus();
     await newProjectPage.waitForPageLoad();
@@ -45,6 +36,6 @@ describe('Gitlab tests', () => {
     }
   })
 
-  
+
 })
 
