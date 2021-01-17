@@ -15,8 +15,8 @@ describe('Gitlab tests', () => {
     const deserializedCookies = new Utils().getCookies();
     await context.addCookies(deserializedCookies);
     await page.goto(data.testUrl);
-    homePage = new HomePage(page);
-    newProjectPage = new NewProjectPage(page);
+    homePage = new HomePage();
+    newProjectPage = new NewProjectPage();
     await homePage.waitForPageLoad();
   })
   
@@ -24,7 +24,7 @@ describe('Gitlab tests', () => {
     await homePage.createNewProjectByClickingPlus();
     await newProjectPage.waitForPageLoad();
     await newProjectPage.clickOnBlankProject();
-    let blankProjectPage = new BlankProjectPage(page);
+    let blankProjectPage = new BlankProjectPage();
     await blankProjectPage.waitForPageLoad();
     await blankProjectPage.enterProjectName(projectName);
     await blankProjectPage.submitCreateButton();
