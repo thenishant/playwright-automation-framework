@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PipelinePage = void 0;
 class PipelinePage {
-    constructor(page) {
+    constructor() {
         this.pageText = 'text=General pipelines';
         this.expandVariablesButton = '#js-cicd-variables-settings > div.settings-header > button';
         this.addVariableButton = '#js-cicd-variables-settings > div.settings-content > div > div > div > div > button';
@@ -13,13 +13,12 @@ class PipelinePage {
         this.variableValue = '#__BVID__10 > tbody > tr > td.text-plain > div > div';
         this.deleteVariableButton = '#add-ci-variable___BV_modal_footer_ > button.btn.btn-danger.btn-md.gl-button.btn-danger-secondary';
         this.noVariablesText = '#__BVID__10 > tbody > tr > td > div > div > p';
-        this.page = page;
     }
     async waitForPageLoad() {
-        await this.page.waitForSelector(this.pageText);
+        await page.waitForSelector(this.pageText);
     }
     async expandVariables() {
-        await this.page.click(this.expandVariablesButton);
+        await page.click(this.expandVariablesButton);
     }
     async scrollDownMenuBar() {
         await page.$eval(this.addVariableButton, (element) => {
@@ -27,23 +26,23 @@ class PipelinePage {
         });
     }
     async addVariables(variable, value) {
-        await this.page.click(this.addVariableButton);
-        await this.page.click(this.variableInput);
-        await this.page.fill(this.variableInput, variable);
-        await this.page.click(this.valueInput);
-        await this.page.fill(this.valueInput, value);
-        await this.page.click(this.addVariable);
+        await page.click(this.addVariableButton);
+        await page.click(this.variableInput);
+        await page.fill(this.variableInput, variable);
+        await page.click(this.valueInput);
+        await page.fill(this.valueInput, value);
+        await page.click(this.addVariable);
     }
     async getVariable() {
-        await this.page.waitForTimeout(1000);
-        return this.page.innerText(this.variableValue);
+        await page.waitForTimeout(1000);
+        return page.innerText(this.variableValue);
     }
     async deleteVariable() {
-        await this.page.click(this.editVariableIcon);
-        await this.page.click(this.deleteVariableButton);
+        await page.click(this.editVariableIcon);
+        await page.click(this.deleteVariableButton);
     }
     async getNoVariablesText() {
-        return await this.page.innerText(this.noVariablesText);
+        return await page.innerText(this.noVariablesText);
     }
 }
 exports.PipelinePage = PipelinePage;

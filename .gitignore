@@ -7,4 +7,4 @@ tests/*.js
 utils/*.js
 tests/cookies.json
 src/.DS_Store
-
+jest.setup.js

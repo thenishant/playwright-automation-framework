@@ -2,8 +2,7 @@ const fs = require('fs');
 
 export class Utils {
 
-getCookies() : any {
-    const cookies = fs.readFileSync('cookies.json', 'utf8');
-    return JSON.parse(cookies);
-} 
+getRandomString(): string {
+    return Math.random().toString(20).substr(2, 6)
+}
 }

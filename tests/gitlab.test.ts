@@ -11,25 +11,28 @@ import { PipelinePage } from '../src/pages/menuBarPages/PipelinePage';
 describe('Gitlab tests', () => {
   let homePage = new HomePage;
   let newProjectPage= new NewProjectPage;
+  let utils = new Utils();
 
   const createProject = async (projectName:string) => {
     await homePage.createNewProjectByClickingPlus();
-    await newProjectPage.waitForPageLoad();
+    // await newProjectPage.waitForPageLoad();
     await newProjectPage.clickOnBlankProject();
     let blankProjectPage = new BlankProjectPage();
-    await blankProjectPage.waitForPageLoad();
+    // await blankProjectPage.waitForPageLoad();
     await blankProjectPage.enterProjectName(projectName);
     await blankProjectPage.submitCreateButton();
   }
 
   it('An existing user is able to signin into gitlab', async () => {
+    await homePage.waitForPageLoad();
     expect(await page.title()).toBe('Projects · Dashboard · GitLab');
   })
 
   it('An existing user is able to create a new private project on gitlab', async () => {
-    await createProject('test');
-    let projectPage = new ProjectPage(page);
-    await projectPage.waitForPageLoad();
+    let projectName = utils.getRandomString();
+    await createProject(projectName);
+    let projectPage = new ProjectPage();
+    // await projectPage.waitForPageLoad();
     const projectSuccessText = await projectPage.projectSuccessMessage();
     if (projectSuccessText != null)
     {
@@ -40,8 +43,8 @@ describe('Gitlab tests', () => {
     await projectPage.scrollDownMenuBar();
     await projectPage.clicksMembersIcon();
 
-    let membersPage = new MembersPage(page);
-    await membersPage.waitForPageLoad();
+    let membersPage = new MembersPage();
+    // await membersPage.waitForPageLoad();
     await membersPage.addDeveloper(data.developer);
     await membersPage.addRoleDeveloper();
     await membersPage.clickInvite();
@@ -50,8 +53,8 @@ describe('Gitlab tests', () => {
 
     //add variable
     await projectPage.scrollDownMenuBar();
-    await projectPage.selectCiCd();
-    let pipelinePage = new PipelinePage(page);
+    await projectPage.selectCiCd(projectName);
+    let pipelinePage = new PipelinePage();
     await pipelinePage.waitForPageLoad();
     await pipelinePage.expandVariables();
     await pipelinePage.scrollDownMenuBar();
@@ -62,16 +65,17 @@ describe('Gitlab tests', () => {
     let addedVariable = await pipelinePage.getVariable();
     expect(addedVariable).toBe(variable);
 
-    // //delete variable
+    // delete variable
     await pipelinePage.deleteVariable();
     let noVariablesText = await pipelinePage.getNoVariablesText();
     expect(noVariablesText).toBe('There are no variables yet.');
 
-
+    //delete project
+    await projectPage.scrollDownMenuBar();
     await projectPage.clickSettingsIcon();
-    await projectPage.gotoProjectEdit();
+    await projectPage.gotoProjectEdit(projectName);
 
-    let projectEditPage = new ProjectEditpage(page);
+    let projectEditPage = new ProjectEditpage();
     await projectEditPage.waitForPageLoad();
     await projectEditPage.clickAdvancedSettings();
     await projectEditPage.clickDeleteProject();
