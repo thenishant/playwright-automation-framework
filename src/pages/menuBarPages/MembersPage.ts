@@ -1,38 +1,33 @@
-import { Page } from 'playwright';
 
 export class MembersPage {
     private pageText = 'text=Project members';
     private memberInputText = 'id=s2id_autogen1';
-    private selectMember = 'select#select2-drop';
     private selectRole = 'select#access_level'
-    private newProjectText = 'text=New project';
     private inviteButton = '#invite-member-pane > div > div > form > input.btn.btn-success'
-    private page: Page;
+    private memberAddSuccessText = 'xpath=//*[@id="content-body"]/div[1]/div/span'
 
-    constructor(page:Page)
-    {
-        this.page = page;
+
+    async waitForPageLoad() {
+        await page.waitForSelector(this.pageText);
     }
 
-    async waitForPageLoad()
-    {
-        await this.page.waitForSelector(this.pageText);
+    async addDeveloper(developerName: string) {
+        await page.type(this.memberInputText, developerName);
+        await page.waitForTimeout(1000);
+        await page.keyboard.press('Enter');
     }
 
-    async addDeveloper(developerName:string)
-    {
-        await this.page.type(this.memberInputText,developerName);
-        await this.page.selectOption(this.selectMember,developerName);
+    async addRoleDeveloper() {
+        await page.selectOption(this.selectRole, '30') //value for developer is 30
     }
 
-    async addRoleDeveloper()
-    {
-        await this.page.selectOption(this.selectRole, '30') //valur for developer is 30
+    async clickInvite() {
+        await page.click(this.inviteButton);
     }
 
-    async clickInvite()
-    {
-        await this.page.click(this.inviteButton);
+    async getSucessMessageForAddMember() {
+        await page.waitForTimeout(1000);
+        return await page.innerText(this.memberAddSuccessText);
     }
 
 }
