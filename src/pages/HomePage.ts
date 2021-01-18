@@ -1,6 +1,6 @@
 export class HomePage {
 
-    private welcomeText = 'text=Welcome to GitLab';
+    private welcomeText = 'text=Groups';
     private plusIcon = 'id=js-onboarding-new-project-link';
     private newProjectText = 'text=New project';
 

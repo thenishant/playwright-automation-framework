@@ -7,7 +7,7 @@ import config from "../data/config.json"
 export class ProjectPage {
     private page: Page
     private loadText = 'text=The repository for this project is empty';
-    private newRepoInstruction = 'id=repo-command-line-instructions'
+    private newRepoHeader = 'xpath=//*[@id="content-body"]/h4'
     private settingsIcon = 'data-testid=settings-icon';
     private membersIcon = 'id=js-onboarding-members-link';
     private projectDeletionText = '#content-body > div.flash-container.flash-container-page.sticky > div > span'
@@ -21,7 +21,7 @@ export class ProjectPage {
     }
 
     async projectSuccessMessage() {
-        const actual = await this.page.$eval(this.newRepoInstruction,
+        const actual = await this.page.$eval(this.newRepoHeader,
             element => element.textContent);
         return actual;
     }
@@ -50,6 +50,11 @@ export class ProjectPage {
         await this.page.click(this.membersIcon);
     }
     
+    async selectCiCd()
+    {
+        await this.page.hover(this.settingsIcon);
+        await this.page.goto('https://gitlab.com/testgitlab0/test/-/settings/ci_cd');
+    }
 
     async getProjectDeleteText()
     {
