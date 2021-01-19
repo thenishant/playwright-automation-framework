@@ -2,8 +2,8 @@ module.exports = {
     verbose: true,
     preset: 'jest-playwright-preset',
     testTimeout: 450000,
-    globalSetup: './tests/setup.ts',
-    globalTeardown: './tests/teardown.ts',
+    globalSetup: '<rootDir>/tests/Setup.ts',
+    globalTeardown: '<rootDir>/tests/teardown.ts',
 
     transform: {
         '^.+\\.ts$': 'ts-jest',
