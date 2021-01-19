@@ -1,6 +1,6 @@
-module.exports = {
-    browsers: ["firefox"],
-    launchOptions: {
-        headless: true
-    }
-}
+// module.exports = {
+//     browsers: ["firefox"],
+//     launchOptions: {
+//         headless: true
+//     }
+// }
