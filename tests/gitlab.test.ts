@@ -1,87 +1,93 @@
 import data from '../src/data/config.json';
-import { Utils } from '../src/utils/utils';
-import { HomePage } from '../src/pages/HomePage';
-import { NewProjectPage } from '../src/pages/projectCreationPages/NewPojectPage';
-import { BlankProjectPage } from '../src/pages/projectCreationPages/BlankProjectPage';
-import { ProjectPage } from '../src/pages/ProjectPage';
-import { ProjectEditpage } from '../src/pages/menuBarPages/ProJectEditPage';
-import { MembersPage } from '../src/pages/menuBarPages/MembersPage';
-import { PipelinePage } from '../src/pages/menuBarPages/PipelinePage';
+import {HomePage} from '../src/pages/HomePage';
+import {NewProjectPage} from '../src/pages/projectCreationPages/NewPojectPage';
+import {BlankProjectPage} from '../src/pages/projectCreationPages/BlankProjectPage';
+
+const fs = require('fs');
+import {BrowserContext, firefox, FirefoxBrowser, Page} from "playwright";
+import {SignInPage} from "../src/pages/SignInPage";
+import {MembersPage} from "../src/pages/menuBarPages/MembersPage";
+import {ProjectPage} from "../src/pages/ProjectPage";
+import {PipelinePage} from "../src/pages/menuBarPages/PipelinePage";
+import {ProjectEditPage} from "../src/pages/menuBarPages/ProjectEditPage";
+
+let page: Page
+let firefoxBrowser: FirefoxBrowser
+let firefoxContext: BrowserContext
 
 describe('Gitlab tests', () => {
-  let homePage = new HomePage;
-  let newProjectPage= new NewProjectPage;
-  let utils = new Utils();
+    beforeEach(async () => {
+        firefoxBrowser = await firefox.launch({
+            headless: true
+        });
+        firefoxContext = await firefoxBrowser.newContext();
+        page = await firefoxContext.newPage();
+        await page.goto(data.testUrl);
+        let signInPage = new SignInPage(page);
+        await signInPage.signIn(data.userName, data.password);
+    })
 
-  const createProject = async (projectName:string) => {
-    await homePage.createNewProjectByClickingPlus();
-    // await newProjectPage.waitForPageLoad();
-    await newProjectPage.clickOnBlankProject();
-    let blankProjectPage = new BlankProjectPage();
-    // await blankProjectPage.waitForPageLoad();
-    await blankProjectPage.enterProjectName(projectName);
-    await blankProjectPage.submitCreateButton();
-  }
+    let projectName = 'something123';
+    test('An existing user should be able to create a new private project', async () => {
+        await createProject(projectName)
+    })
 
-  it('An existing user is able to signin into gitlab', async () => {
-    await homePage.waitForPageLoad();
-    expect(await page.title()).toBe('Projects · Dashboard · GitLab');
-  })
+    test("User should be able add member to an existing project", async () => {
+        let homePage = new HomePage(page);
+        let projectPage = new ProjectPage(page);
+        let memberPage = new MembersPage(page)
 
-  it('An existing user is able to create a new private project on gitlab', async () => {
-    let projectName = utils.getRandomString();
-    await createProject(projectName);
-    let projectPage = new ProjectPage();
-    // await projectPage.waitForPageLoad();
-    const projectSuccessText = await projectPage.projectSuccessMessage();
-    if (projectSuccessText != null)
-    {
-      expect(projectSuccessText.trim()).toBe('The repository for this project is empty');
-    }
+        await homePage.selectAnExistingProject()
+        await projectPage.navigateToProjectMembers()
+        await memberPage.addProjectMember('somethinjhgfghjuy5@gmailgmail.com')
+        let messageForInvitingUser = await memberPage.getMessageForInviting();
+        expect(messageForInvitingUser).toBe("Users were successfully added.");
+    })
 
-    //add member
-    await projectPage.scrollDownMenuBar();
-    await projectPage.clicksMembersIcon();
+    test("User should be able to add a new variable to an existing project", async () => {
+        let homePage = new HomePage(page);
+        let projectPage = new ProjectPage(page);
+        let pipelinePage = new PipelinePage(page);
+        let memberPage = new MembersPage(page)
 
-    let membersPage = new MembersPage();
-    // await membersPage.waitForPageLoad();
-    await membersPage.addDeveloper(data.developer);
-    await membersPage.addRoleDeveloper();
-    await membersPage.clickInvite();
-    const addMemberSuccesstext = await membersPage.getSucessMessageForAddMember();
-    expect(addMemberSuccesstext).toBe('Users were successfully added.');
+        await homePage.selectAnExistingProject()
+        await projectPage.selectCiCd(projectName);
 
-    //add variable
-    await projectPage.scrollDownMenuBar();
-    await projectPage.selectCiCd(projectName);
-    let pipelinePage = new PipelinePage();
-    await pipelinePage.waitForPageLoad();
-    await pipelinePage.expandVariables();
-    await pipelinePage.scrollDownMenuBar();
-    await pipelinePage.expandVariables();
-    let variable = "env";
-    let value = 'integration';
-    await pipelinePage.addVariables(variable,value);
-    let addedVariable = await pipelinePage.getVariable();
-    expect(addedVariable).toBe(variable);
+        let key = "env1";
+        let value = 'integration1';
+        await pipelinePage.addVariable(key, value);
+        let addedVariable = await pipelinePage.getVariable();
+        expect(addedVariable).toBe(key);
 
-    // delete variable
-    await pipelinePage.deleteVariable();
-    let noVariablesText = await pipelinePage.getNoVariablesText();
-    expect(noVariablesText).toBe('There are no variables yet.');
+        await pipelinePage.deleteVariable();
+        let noVariablesText = await pipelinePage.getNoVariablesText();
+        expect(noVariablesText).toBe('There are no variables yet.');
+        //
+    })
 
-    //delete project
-    await projectPage.scrollDownMenuBar();
-    await projectPage.clickSettingsIcon();
-    await projectPage.gotoProjectEdit(projectName);
+    test('An existing user should be able to delete a project', async () => {
+        let projectPage = new ProjectPage(page);
+        let homePage = new HomePage(page);
+        await homePage.selectAnExistingProject()
+        await projectPage.gotoProjectEdit(projectName);
+        let projectEditPage = new ProjectEditPage(page);
+        await projectEditPage.clickAdvancedSettings();
+        await projectEditPage.clickDeleteProject();
+        await projectEditPage.deleteProject();
+    })
 
-    let projectEditPage = new ProjectEditpage();
-    await projectEditPage.waitForPageLoad();
-    await projectEditPage.clickAdvancedSettings();
-    await projectEditPage.clickDeleteProject();
-    await projectEditPage.deleteProject('test');
-  })
-
-
+    afterEach(async () => {
+        await firefoxContext.close()
+        await firefoxBrowser.close()
+    })
 })
+
+const createProject = async (projectName: string) => {
+    let blankProjectPage = new BlankProjectPage(page);
+    let newProjectPage = new NewProjectPage(page);
+    let homePage = new HomePage(page);
+    await homePage.createNewProject();
+    await newProjectPage.clickBlankProject();
+    await blankProjectPage.createProject(projectName);
+}
 
