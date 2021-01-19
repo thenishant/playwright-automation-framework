@@ -1,33 +1,38 @@
+import {Page} from "playwright";
 
 export class MembersPage {
-    private pageText = 'text=Project members';
+    constructor(page: Page) {
+        this.page = page;
+    }
+
+    private page: Page;
     private memberInputText = 'id=s2id_autogen1';
-    private selectRole = 'select#access_level'
+    private selectRolePermission = 'select#access_level'
     private inviteButton = '#invite-member-pane > div > div > form > input.btn.btn-success'
-    private memberAddSuccessText = 'xpath=//*[@id="content-body"]/div[1]/div/span'
+    private messageForInviting = 'xpath=//*[@id="content-body"]/div[1]/div/span'
 
-
-    async waitForPageLoad() {
-        await page.waitForSelector(this.pageText);
+    private async addMemberViaEmail(email: string) {
+        await this.page.type(this.memberInputText, email);
+        await this.page.waitForTimeout(1000);
+        await this.page.keyboard.press('Enter');
     }
 
-    async addDeveloper(developerName: string) {
-        await page.type(this.memberInputText, developerName);
-        await page.waitForTimeout(1000);
-        await page.keyboard.press('Enter');
+    private async selectRole() {
+        await this.page.selectOption(this.selectRolePermission, '30') //value for developer is 30
     }
 
-    async addRoleDeveloper() {
-        await page.selectOption(this.selectRole, '30') //value for developer is 30
+    private async clickInvite() {
+        await this.page.click(this.inviteButton);
     }
 
-    async clickInvite() {
-        await page.click(this.inviteButton);
+    public async addProjectMember(email: string) {
+        await this.addMemberViaEmail(email)
+        await this.selectRole()
+        await this.clickInvite()
     }
 
-    async getSucessMessageForAddMember() {
-        await page.waitForTimeout(1000);
-        return await page.innerText(this.memberAddSuccessText);
+    public async getMessageForInviting() {
+        await this.page.waitForTimeout(1000);
+        return this.page.innerText(this.messageForInviting);
     }
-
 }

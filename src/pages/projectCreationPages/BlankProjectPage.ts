@@ -1,17 +1,24 @@
+import {Page} from "playwright";
+
 export class BlankProjectPage {
-    // private blankProjectText = 'text=Create blank project'
     private projectNameTextBox = 'id=project_name'
-    private createProjectSelector = '#new_project > input.btn.btn-success.project-submit'
+    private createProjectButton = '//*[@id="new_project"]/input[3]'
+    private page: Page;
 
-    // async waitForPageLoad() {
-    //     await page.waitForSelector(this.blankProjectText);
-    // }
-
-    async enterProjectName(projectName: string) {
-        await page.fill(this.projectNameTextBox, projectName);
+    constructor(page: Page) {
+        this.page = page;
     }
 
-    async submitCreateButton() {
-        await page.click(this.createProjectSelector);
+    private async enterProjectName(projectName: string) {
+        await this.page.fill(this.projectNameTextBox, projectName);
+    }
+
+    private async clickOnCreateButton() {
+        await this.page.click(this.createProjectButton);
+    }
+
+    async createProject(projectName: string) {
+        await this.enterProjectName(projectName)
+        await this.clickOnCreateButton()
     }
 }

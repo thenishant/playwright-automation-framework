@@ -11,5 +11,5 @@ module.exports = {
         "jest-html-reporters"
     ],
     testMatch: ["**/__tests__/**/*.+(ts|js)", "**/?(*.)+(spec|test).+(ts|js)"],
-    setupFilesAfterEnv: ['<rootDir>/jest.setup.ts']
+    // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts']
 }

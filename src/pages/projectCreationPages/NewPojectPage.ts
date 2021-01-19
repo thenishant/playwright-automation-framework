@@ -1,14 +1,14 @@
-import config from "../../data/config.json"
+import {Page} from "playwright";
 
 export class NewProjectPage {
-    // private newProjectText = 'text=Create new project';
-    private blankProjectLink = config.newProjectUrl;
-    
-    // async waitForPageLoad() {
-    //     await page.waitForSelector(this.newProjectText);
-    // }
+    private createBlankProject = '.experiment-new-project-page-blank-state'
+    private page: Page
 
-    async clickOnBlankProject() {
-        await page.goto(this.blankProjectLink);
+    constructor(page: Page) {
+        this.page = page
+    }
+
+    async clickBlankProject() {
+        await this.page.click(this.createBlankProject);
     }
 }
