@@ -56,6 +56,7 @@ export class PipelinePage {
 
     async addVariable(key: string, value: string) {
         await this.expandVariables()
+        await this.page.waitForTimeout(1000);
         await this.createVariable(key, value)
     }
 }
